@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { TodoList } from './components/TodoList';
-import { dummyTodoList } from './data/dummyTodoList';
 import { AddTodoForm } from './components/AddTodoForm';
 import { TodoSummary } from './components/TodoSummary';
+import { Todo } from './types/todo';
 
 function App() {
-  const [todoList, setTodoList] = useState(dummyTodoList);
+  const [todoList, setTodoList] = useState<Todo[]>(() => {
+    // ローカルストレージからTodoを取得
+    const localStorageTodoList = localStorage.getItem("todoList");
+    // 配列に変換
+    return JSON.parse(localStorageTodoList ?? "[]");
+  })
+
+  // 第二引数のtodoListの値が変更されると発火
+  useEffect(() => {
+    // ローカルストレージに保存
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   const addTodo = (title: string) => {
     setTodoList((prevTodoList) => {
@@ -25,38 +36,34 @@ function App() {
   // 対象のTodoの完了を変更
   const changeCompleted = (id: number) => {
     // 変更前のTodoリストが引数として呼び出せる
-    setTodoList(prevTodoList =>
+    setTodoList((prevTodoList) =>
       prevTodoList.map((todo) => {
-        if(todo.id === id) {
+        if (todo.id === id) {
           return {
             ...todo,
             completed: !todo.completed,
           };
         }
         return todo;
-      })
-    )
+      }),
+    );
   };
 
   // 削除ボタン
   const deleteTodo = (id: number) => {
-    setTodoList(prevTodoList =>
+    setTodoList((prevTodoList) =>
       // 対象のidではないTodoを残す
-      prevTodoList.filter(todo =>
-        todo.id !== id
-      )
-    )
-  }
+      prevTodoList.filter((todo) => todo.id !== id),
+    );
+  };
 
   // 完了したTodoを全て削除
   const deleteAllCompleted = () => {
     // 完了していないTodoは残す
-    setTodoList(prevTodoList =>
-      prevTodoList.filter(todo =>
-        !todo.completed
-      )
-    )
-  }
+    setTodoList((prevTodoList) =>
+      prevTodoList.filter((todo) => !todo.completed),
+    );
+  };
 
   return (
     <main className="mx-auto mt-10 max-w-xl">
@@ -64,7 +71,11 @@ function App() {
       <div className="space-y-5">
         <AddTodoForm addTodo={addTodo} />
         <div className="rounded bg-slate-200 p-5">
-          <TodoList todoList={todoList} changeCompleted={changeCompleted} deleteTodo={deleteTodo}/>
+          <TodoList
+            todoList={todoList}
+            changeCompleted={changeCompleted}
+            deleteTodo={deleteTodo}
+          />
           <TodoSummary deleteAllCompleted={deleteAllCompleted} />
         </div>
       </div>

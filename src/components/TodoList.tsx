@@ -32,7 +32,7 @@ export const TodoList = ({ todoList, changeCompleted, deleteTodo }: Props) => {
             </span>
           </label>
           <button
-            type='button'
+            type="button"
             className="rounded bg-gray-200 p-2 transition-colors hover:bg-gray-300"
             onClick={() => deleteTodo(todo.id)}
           >
