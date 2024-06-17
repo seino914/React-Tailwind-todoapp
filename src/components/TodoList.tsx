@@ -23,7 +23,9 @@ export const TodoList = ({ todoList, changeCompleted }: Props) => {
               />
             </div>
             {/* completedがtrueならclassを適用する。falseならclassは適用しない (横線を入れる）*/}
-            <span className={todo.completed ? "text-gray-400 line-through" : ""}>
+            <span
+              className={todo.completed ? 'text-gray-400 line-through' : ''}
+            >
               {todo.title}
             </span>
           </label>
