@@ -1,11 +1,8 @@
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
+import { AddTodoFormProps } from '../types/todo';
 
-type Props = {
-  addTodo: (title: string) => void;
-};
-
-export const AddTodoForm = ({ addTodo }: Props) => {
+export const AddTodoForm = ({ addTodo }: AddTodoFormProps) => {
   const [inputValue, setInputValue] = useState('');
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

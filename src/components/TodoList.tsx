@@ -1,13 +1,11 @@
 import { Trash2 } from 'lucide-react';
-import { Todo } from '../types/todo';
+import { TodoListProps } from '../types/todo';
 
-type Props = {
-  todoList: Todo[];
-  changeCompleted: (id: number) => void;
-  deleteTodo: (id: number) => void;
-};
-
-export const TodoList = ({ todoList, changeCompleted, deleteTodo }: Props) => {
+export const TodoList = ({
+  todoList,
+  changeCompleted,
+  deleteTodo,
+}: TodoListProps) => {
   return (
     <div className="space-y-3">
       {todoList.map((todo) => (
