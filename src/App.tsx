@@ -3,6 +3,7 @@ import './App.css';
 import { TodoList } from './components/TodoList';
 import { dummyTodoList } from './data/dummyTodoList';
 import { AddTodoForm } from './components/AddTodoForm';
+import { TodoSummary } from './components/TodoSummary';
 
 function App() {
   const [todoList, setTodoList] = useState(dummyTodoList);
@@ -24,28 +25,37 @@ function App() {
   // 対象のTodoの完了を変更
   const changeCompleted = (id: number) => {
     // 変更前のTodoリストが引数として呼び出せる
-    setTodoList((prevTodoList) => {
-      return prevTodoList.map((todo) => {
-        // 対象のidならcompletedを変更（true→false）
-        if (todo.id === id) {
+    setTodoList(prevTodoList =>
+      prevTodoList.map((todo) => {
+        if(todo.id === id) {
           return {
             ...todo,
             completed: !todo.completed,
           };
         }
         return todo;
-      });
-    });
+      })
+    )
   };
 
   // 削除ボタン
   const deleteTodo = (id: number) => {
-    setTodoList((prevTodoList) => {
+    setTodoList(prevTodoList =>
       // 対象のidではないTodoを残す
-      return prevTodoList.filter(todo =>
+      prevTodoList.filter(todo =>
         todo.id !== id
       )
-    })
+    )
+  }
+
+  // 完了したTodoを全て削除
+  const deleteAllCompleted = () => {
+    // 完了していないTodoは残す
+    setTodoList(prevTodoList =>
+      prevTodoList.filter(todo =>
+        !todo.completed
+      )
+    )
   }
 
   return (
@@ -55,6 +65,7 @@ function App() {
         <AddTodoForm addTodo={addTodo} />
         <div className="rounded bg-slate-200 p-5">
           <TodoList todoList={todoList} changeCompleted={changeCompleted} deleteTodo={deleteTodo}/>
+          <TodoSummary deleteAllCompleted={deleteAllCompleted} />
         </div>
       </div>
     </main>
