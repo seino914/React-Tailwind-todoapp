@@ -40,6 +40,10 @@ export const TodoList = ({ todoList, changeCompleted, deleteTodo }: Props) => {
           </button>
         </div>
       ))}
+      {/* Todoが無い場合に表示する文字列 */}
+      {todoList.length === 0 && (
+        <p className="text-center text-sm">Todoがありません</p>
+      )}
     </div>
   );
 };
