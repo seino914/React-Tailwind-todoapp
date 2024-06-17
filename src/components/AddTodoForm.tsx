@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 
 type Props = {
   addTodo: (title: string) => void;
-}
+};
 
-export const AddTodoForm = ({addTodo}: Props) => {
+export const AddTodoForm = ({ addTodo }: Props) => {
   const [inputValue, setInputValue] = useState('');
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // ページの更新を防ぐ
     addTodo(inputValue); // リストに渡す
-    setInputValue(""); // フォームを空にする
-  }
+    setInputValue(''); // フォームを空にする
+  };
 
   return (
     <form className="flex" onSubmit={onSubmit}>
